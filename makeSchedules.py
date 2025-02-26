@@ -36,8 +36,19 @@ def read_csv_schedule(filename):
 
 def generate_latex(name, meetings):
     latex_content = f"""\\documentclass{{article}}
+\\usepackage{{graphicx}}
+\\usepackage{{hyperref}}
 \\begin{{document}}
+
+\\begin{{center}}
+\\center
+\\includegraphics[width=0.5\\textwidth]{{University - CenteredLogo (RGB).jpg}}
+\\end{{center}}
+
 \\section*{{Schedule for {name}}}
+
+We're happy to welcome you to the UTK Physics and Astronomy department. Below is your personal schedule of one-on-one meetings with faculty. You can find the shared schedule for the rest of your visit at \\href{{https://indico.phys.utk.edu/event/8/}}{{https://indico.phys.utk.edu/event/8/}}.
+
 \\begin{{itemize}}
 """
     for meeting in meetings:
