@@ -26,7 +26,12 @@ def read_csv_schedule(filename):
         for row_index, row in enumerate(reader[2:22], start=2):
             for col_index, name in enumerate(row[1:], start=1):
                 if name.strip() in unique_names:
+                    if row_index < 11:
+                        date = "Monday, March 10"
+                    else:
+                        date = "Tuesday, March 11"
                     schedules[name.strip()].append({
+                        "date": date,
                         "time": times[row_index - 2],
                         "meeting_with": headers[col_index],
                         "location": locations[col_index]
@@ -52,9 +57,9 @@ We're happy to welcome you to the UTK Physics and Astronomy department. Below is
 \\begin{{itemize}}
 """
     for meeting in meetings:
-        latex_content += f"  \\item {meeting['time']} with {meeting['meeting_with']} at {meeting['location']}\n"
+        latex_content += f"  \\item {meeting['date']}, {meeting['time']} with {meeting['meeting_with']} at {meeting['location']}\n"
     
-    latex_content += "\\end{itemize}\n\\end{document}"
+    latex_content += "\\end{itemize}\n\\small Updated: \\today\\end{document}"
     print(latex_content)
     filename = f"{name.replace(' ', '_')}.tex"
     with open(filename, "w") as tex_file:
@@ -66,7 +71,7 @@ We're happy to welcome you to the UTK Physics and Astronomy department. Below is
 def compile_latex(filename):
     # print(f"pdflatex {filename} > /dev/null 2>&1")
     os.system(f"pdflatex {shlex.quote(filename)}")
-    temp_files = [filename, filename.replace('.tex', '.aux'), filename.replace('.tex', '.log')]
+    temp_files = [filename, filename.replace('.tex', '.aux'), filename.replace('.tex', '.log'), filename.replace('.tex', '.out')]
     for temp in temp_files:
         os.remove(temp)
 
